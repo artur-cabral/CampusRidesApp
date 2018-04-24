@@ -1,17 +1,32 @@
-# CampusRidesApp
-This repository is a collection of code for my Final Thesis for my Computer Science degree. 
+Side Menu App
+==================
+This template can be used for simple app with side menu that can be opened to switch views, this template can be used for creating applications similar to Youtube* app or Gmail* app.
 
-Campus Rides is an application that has the goal to connect Riders and Drivers on and off campus
-Drivers offer rides and share details
-Departure and Destination, Date & Time, Preferences, and Price
-Riders look for rides and choose the best fit
-Based on destination, price, and preferences of the ride
-Campus is more connected, Drivers save gas money, and Riders save on expensive tickets
+This basic HTML5 mobile app template is created using [Intel App Framework](https://github.com/01org/appframework), which is a free and open source Javascript framework targeted at HTML5 Mobile browsers with a blazingly fast query selector library and Mobile UI framework for creating app with native like UI and performance.
+
+You can use Intel AppFramework to create __mobile web apps__ or create __hybrid apps__ using tools like [_Intel XDK_](http://xdk-software.intel.com/) or _Adobe Phonegap build_ to build native packaged apps.
+
+App Framework has UI themes which look and feel similar to _iPhone_, _iPad_, _Android_, _Windows Phone_, _Blackberry 10_ and _Tizen_, the UI theme will be automatically applied by default when opened on these devices. Notice the screenshots below, the app code is same but the look and feel changes to match the device's native style.
+
+![SideMenuApp](https://raw.github.com/gomobile/template-side-menu/master/screenshot.png)
+
+Intel(R) XDK
+-------------------------------------------
+This template is part of the Intel(R) XDK. 
+Download the Intel XDK at http://software.intel.com/en-us/html5.
+To see the technical detail of the template, please visit the article page 
+at http://software.intel.com/en-us/html5/articles/templates-to-get-started-with-html5-mobile-app-development. 
+
+Application Files
+-----------------
+* app.json
+* index.html
+* README.md
+* app_framework/
 
 
-# Inspiration
+App Framework (formerly jQ.Mobi)
+-----------------------------------------------------------------------------
+* source:  https://github.com/01org/appframework
+* license: https://github.com/01org/appframework/blob/master/license.txt
 
-“The inspiration for Campus Rides App came from a conversation with some friends and staff members about how complicated 
-is for international students or students in general who do not own a car to get from school to the airport and nearby cities 
-during school breaks. Since mobile development is part of my major, as of my research class, I decided to do an independent study 
-on mobile applications development, and create an app to solve this problem.”

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<!--HTML5 doctype-->
+<html>
+
+<head>
+
+    <title>Campus Ride App</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <link rel="stylesheet" type="text/css" href="lib/appframework/icons.css" />
+    <link rel="stylesheet" type="text/css" href="lib/appframework/af.ui.css" />
+
+<!-- ===================== ADDING FIREBASE =========================== -->
+        
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-app.js"></script> 
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDHwjt0RI0DM527njPwv8C06aGl4e17P7A",
+    authDomain: "testapp-e98d7.firebaseapp.com",
+    databaseURL: "https://testapp-e98d7.firebaseio.com",
+    projectId: "testapp-e98d7",
+    storageBucket: "testapp-e98d7.appspot.com",
+    messagingSenderId: "978381427815"
+  };
+  
+</script>
+<!-- ================ ADDING ANGULARFIRE ============================= -->
+<!-- AngularJS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
+
+<!-- AngularFire -->
+<script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
+ <!-- ====================================================================== -->       
+    <script type="text/javascript" charset="utf-8" src="lib/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="lib/fastclick.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="lib/appframework/appframework.ui.min.js"></script>
+   
+    <script src="https://use.fontawesome.com/4a4fc46f40.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
+        
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- This cpde is to ensure bootstrap is mobile first, and ensure proper rendering and touch zooming -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- ============= ADDING CHAT =================== -->
+        <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.0.2/firebase.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="chat.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="chat.css">
+    <!--====================================================== -->
+        
+    <script src='cordova.js'></script>
+<style>
+table, th , td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+ 
+    button {
+        background-color: cornflowerblue;
+        padding: 5px;
+        transition: all linear 0.5s;
+    }
+    .ng-hide {
+  height: 0;
+    }
+   
+}
+</style>
+
+</head>
+
+<body ng-app="myApp">
+    <div id="splashscreen" class='ui-loader heavy'>
+        Campus Rides
+        <br>
+        <br>
+        <span class='ui-icon ui-icon-loading spin'></span>
+        <h1>Starting app</h1>
+    </div>
+
+    <div class="view splitview" >
+        <script>
+            firebase.initializeApp(config);
+            var ridesRef = firebase.database().ref("/rides");
+            var requestsRef = firebase.database().ref("/requests");
+        var app = angular.module("myApp", ['firebase']);
+            //app.controller("displayRideCtrl", function($scope,$http){
+             //$http.get("rides.php").then(function(response){$scope.rides = response.data.records;})
+             
+            //});
+            app.controller('freeCtrl', function($scope) {
+            $scope.showMe = true;
+            $scope.myFunc = function() {
+            $scope.showMe = !$scope.showMe;
+            }
+            $scope.driver = false;
+            $scope.showDriver = function(){
+                $scope.driver = !$scope.driver;
+            }
+        });
+            //app.controller("rideRequestCtrl", function($scope,$http){
+             //$http.get("rideRequests.php").then(function(response){$scope.rideRequests = response.data.records;})
+            //});
+            
+            app.controller("showRideCtrl", function($scope, $firebaseArray) {
+            //var ref = new Firebase("https://testapp-e98d7.firebaseio.com/rides");
+            // create a synchronized array
+            $scope.therides = $firebaseArray(ridesRef);
+                $scope.therides.$loaded()
+                .then(function(){
+                angular.forEach($scope.therides, function(ride) {
+                console.log(ride);
+        })
+    });
+            console.log($scope.therides);
+        });
+             app.controller("showRequestCtrl", function($scope, $firebaseArray) {
+            //var ref = new Firebase("https://testapp-e98d7.firebaseio.com/rides");
+            // create a synchronized array
+            $scope.therequests = $firebaseArray(requestsRef);
+                $scope.therequests.$loaded()
+                .then(function(){
+                angular.forEach($scope.therequests, function(request) {
+                console.log(request);
+        })
+    });
+            console.log($scope.therequests);
+        });
+            
+            // WRITING DATA TO THE DATABASE
+            // Get a reference to the database service
+            var database = firebase.database();
+            //function writeUserData(userId, name, email, imageUrl) {
+                //firebase.database().ref('users/' + userId).set({
+                //username: name,
+                //email: email,
+               // profile_picture : imageUrl
+            //});
+       // }
+            //READING DATA FROM THE DATABASE
+            
+      //var messageListRef = firebase.database().ref("users");
+       // messageListRef.on("value",function(data){
+       // data.forEach(function(childData){
+        //console.log("First=" + childData.val());
+        //console.log("First=" + childData.key);
+         //});
+     //});
+          // Import Admin SDK
+            //var admin = require("firebase-admin");
+
+            // Get a database reference to our posts
+            //var db = admin.database();
+            //var ref = db.ref("rides");
+
+            // Attach an asynchronous callback to read the data at our posts reference
+            //ref.on("value", function(snapshot) {
+            //console.log(snapshot.val());
+            //}, function (errorObject) {
+            //console.log("The read failed: " + errorObject.code);
+            //});
+            //Retrieving the rides organized by rides date
+            //var scoresRef = db.ref("rideDate");
+            //scoresRef.orderByValue().on("value", function(snapshot) {
+            //snapshot.forEach(function(data) {
+            //console.log("The " + data.key + " of the ride is " + data.val());
+            //});
+        //});
+            
+        </script>
+        
+        <header>
+            <a class="menuButton" data-left-menu="left" data-transition="cover" style="float:left"></a>
+            <h1>Title</h1>
+        </header>
+        
+        <div class="pages" >
+            <!-- =========================== MAIN PAGE ============================== -->
+            <div class="panel" id="main" data-title="Main" data-selected="true">
+                <div align="center">
+            
+                </div>
+            <center><img src="campusRideLogo.png"></center>
+                <input type="text" ng-model="start" placeholder="Where From?" id="whereFrom">
+                <h3>{{start}}</h3>
+                 <input type="text" ng-model="end" placeholder="Where To?" id="whereTo">
+                <h3>{{end}}</h3>
+                <div id="mainButtons" align="center" >
+                <a class="button" href="#offerRidePage" id="offerRide">Offer a Ride</a>
+                <a class="button" href="#ridesPage" id="findRide" >Find a Ride</a><br>
+                
+                <a class="button" href="#signUpPage" id="signUp" >Sign-up</a>    
+               
+                </div>
+                
+            </div>
+            <!-- =========================== FIND RIDES PAGE ============================== -->
+            <div class="panel" id="ridesPage" data-title="Rides" 
+                 ng-controller="showRideCtrl" >
+              
+                <input type="text" ng-model="destination"  id="rideSearch" 
+                       placeholder="Search for a Ride">
+                <p>Rides from {{start || destination}}</p>
+                <table>
+                    <!--<th>Driver</th>-->
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Seats</th>
+                    <th>Flex</th>
+                    <tr ng-repeat="x in therides | 
+                                   filter: destination | filter: start | filter: end">
+                    <td>{{ x.from }}</td>
+                    <td>{{ x.to }}</td>
+                    <td>{{ x.price | currency }}</td>
+                    <td>{{ x.date }}</td>
+                    <td>{{ x.time }}</td>
+                    <td>{{ x.seats }}</td>
+                    <td>{{ x.flex }}</td>
+                    </tr>
+                </table>   
+            </div>
+            <!-- =========================== CHATS PAGE ============================== -->
+            <div class="panel" id="chats" data-title="Chats">
+            <center><img src="campusRideLogo.png"></center>
+                <h3 align="center"><i class="fa fa-comments" aria-hidden="true"></i>   Chat</h3>
+
+            <div id="messagesDiv"></div>
+
+            <input type="text" id="nameInput" placeholder="Name" />
+            <input type="text" id="messageInput" placeholder="Message..." />
+               
+            </div>
+            <!-- =========================== OFFER A RIDE PAGE ============================== -->
+            <div class="panel" id="offerRidePage" data-title="Offer a Ride">
+         
+                <form name="offerRideForm" ng-controller="freeCtrl">    
+                      
+                From: <input type="text" ng-bind="start" ng-model="rideFrom" id="rideFrom" name="rideFrom" required>
+
+                To: <input type="text" ng-bind="end" ng-model="rideTo" id="rideTo" name="rideTo" required>
+                    
+                
+                Date: <input type="date" id="rideDate">
+                  
+                Time: <input type="time" id="rideTime">
+                    
+                Price: <input type="number" id="ridePrice" ng-show="showMe"><button ng-click="myFunc()">Free</button><br>
+                    
+                Flexibility: +- <input type="number" id="rideFlex" min="0" max="60" step="5">
+                    
+                Available Seats: <input type="number" id="rideSeats" min="1" max="7">
+                    
+                Preferences: <br>
+                    
+                <center><button type="submit" onclick="pushRidesIntoFirebase()">Submit</button></center>
+                <div id="textArea2">
+                 <div class="text-container"></div>
+                 </div>    
+               </form>
+                </div>
+            <!-- =========================== SIGN-UP PAGE ============================== -->
+            <div class="panel" id="signUpPage" data-title="Sign-Up">
+            <h2><i class="fa fa-user" aria-hidden="true"></i>   Create your profile:</h2><br>
+             <form name="signUpForm" ng-controller="freeCtrl">    
+                    
+                First Name: <input type="text" ng-model="user.firstName"  id="firstName" name="username" required>
+                    <span ng-show="offerRideForm.username.$touched && offerRideForm.username.$invalid" style="color:red;">The name is required.</span><br>
+                       
+                Last Name: <input type="text" ng-model="user.lastName" id="lastName" name="userlastname" required>
+                    <span ng-show="offerRideForm.userlastname.$touched && offerRideForm.userlastname.$invalid" style="color:red;">The last name is required.</span><br>
+                 
+                School E-mail: <input type="email" ng-model="user.email" id="email" name="useremail" required>
+                 <span ng-show="offerRideForm.useremail.$touched && offerRideForm.useremail.$invalid" style="color:red;">The school e-mail is required.</span><br>
+                 Password: <input type="password" ng-model="user.password" id="password" name="userpassword" required>
+                 Confirm Password: <input type="password" ng-model="user.Confpassword" name="userConfpassword" required>
+                 Cell-Phone: <input type="number" ng-model="user.cellphone" id="phone" name="userCellphone" required>
+                 
+                 <center><button ng-click="showDriver()">I am also a Driver!</button></center>
+                 <div style="style1" ng-show="driver">
+                 <h3><i class="fa fa-car" aria-hidden="true"></i>   Your Car's Info:</h3>
+                     Car Make: <input type="text" ng-model="carMake" id="carMake">
+                     Car Model: <input type="text" ng-model="carModel" id="carModel">
+                     Car Year: <input type="number" ng-model="carYear" id="carYear">
+                     Car Color: <input type="text" ng-model="carColor" id="carColor">
+                     Car Tag: <input type="text" ng-model="carTag" id="carTag">
+                     Driver's License #: <input type="number" ng-model="user.license" id="driverLicense">
+                 </div><br>
+                 <center><button type="submit" onclick="pushUserIntoFirebase()">Create!</button></center>
+                 <div id="textArea1">
+                 <div class="text-container"></div>
+                 </div>
+                
+            </form>
+            </div>
+            <!-- =========================== REQUEST RIDE PAGE ============================== -->
+            <div class="panel" id="rideRequestPage" data-title="Request a Ride" >
+                <form id="requestRideForm" ng-controller="freeCtrl">
+                Rider: <input type="text" ng-bind="requestRider" ng-model="rider" id="requestRider" name="riderRequest" required>
+                    
+                From: <input type="text" ng-bind="start" ng-model="requestFrom" id="requestFrom" name="requestFrom" required>
+
+                To: <input type="text" ng-bind="end" ng-model="requestTo" id="requestTo" name="requestTo" required>
+                
+                
+                Date: <input type="date" id="requestDate">
+                
+                Price: <input type="number" id="requestPrice" ng-show="showMe"><button ng-click="myFunc()">Free</button><br>
+                
+                Riders: <input type="number" min="1" max="7" id="requestRiders">
+                
+                 <center><button type="submit" onclick="pushRequestsIntoFirebase()">Request</button></center>
+                <div id="textArea3">
+                 <div class="text-container"></div>
+                 </div>
+                </form>            
+            
+            </div>
+            <!-- =========================== FIND RIDE REQUESTS PAGE ========================== -->
+            <div class="panel" id="findRequestPage" 
+                 data-title="Ride Requests" ng-controller="showRequestCtrl">
+                <input type="text" ng-model="findRequest"  id="requestSearch" 
+                       placeholder="Search for a Request">
+                <p>Requests from {{ findRequest }}</p>
+            <table>
+                    <th>Rider</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <th>Seats</th>
+                    <tr ng-repeat="x in therequests | filter: findRequest">
+                    <td>{{ x.rider }}</td>
+                    <td>{{ x.from }}</td>
+                    <td>{{ x.to }}</td>
+                    <td>{{ x.price | currency }}</td>
+                    <td>{{ x.date }}</td>
+                     <td>{{ x.riders }}</td>
+                    </tr>
+                </table>   
+               
+            </div>
+            
+            </div>
+        
+
+        <nav id="left">
+            <div class="view active">
+                <header>
+                    <h1>Menu</h1>
+                </header>
+                <div class="pages">
+                    <div class="panel active" id="navPage1" data-title="Foobar">
+                        <ul class="list">
+                            <li><a href="#main" onclick="$.afui.clearHistory()"><i class="fa fa-home" aria-hidden="true"></i> &nbsp; Main Page</a></li>
+                            <li><a href="#rides" onclick="$.afui.clearHistory()"><i class="fa fa-road" aria-hidden="true"></i> &nbsp;Rides</a>
+                            <ul class="list">
+                                <li><a href="#ridesPage" onclick="$.afui.clearHistory()"><i class="fa fa-search" aria-hidden="true"></i> &nbsp;Find Rides</a></li>
+                                <li><a href="#findRequestPage" onclick="$.afui.clearHistory()"><i class="fa fa-search" aria-hidden="true"></i> &nbsp;Find Requests</a></li>
+                                <li><a href="#offerRidePage" onclick="$.afui.clearHistory()"><i class="fa fa-car" aria-hidden="true"></i> &nbsp;Offer a Ride</a></li>
+                                <li><a href="#rideRequestPage" onclick="$.afui.clearHistory()"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Request a Ride</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#chats" onclick="$.afui.clearHistory()"><i class="fa fa-comments" aria-hidden="true"></i> &nbsp;Chats</a></li>
+                            <li><a href="#signUpPage" onclick="$.afui.clearHistory()"><i class="fa fa-user" aria-hidden="true"></i> &nbsp;Sign-Up</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+ <script>
+        // PUSH USER INFO INTO FIREBASE
+            function pushUserIntoFirebase(){
+              var myRef = firebase.database().ref();
+              var newRef = myRef.child('/users');
+              var newPushRef = newRef.push();
+              var userFirstName = document.getElementById("firstName").value;
+              var userLastName = document.getElementById("lastName").value;
+              var userEmail = document.getElementById("email").value;
+              var userPassword = document.getElementById("password").value;
+              var userPhone = document.getElementById("phone").value;
+              newPushRef.set({
+                  First_Name: userFirstName,
+                  Last_Name: userLastName,
+                  Email: userEmail,
+                  Password: userPassword,
+                  CellPhone: userPhone
+              });
+              document.getElementById("textArea1").innerHTML = '<b> Thank you! Your profile has been created! </b><br>';
+                setTimeout(function(){window.location.href = "#main";}, 4000);
+                
+          } 
+     //PUSH REQUESTS INFO INTO FIREBASE
+        function pushRequestsIntoFirebase(){
+              var myRef = firebase.database().ref();
+              var newRef = myRef.child('/requests');
+              var newPushRef = newRef.push();
+              var requestRider = document.getElementById("requestRider").value;
+              var requestFrom = document.getElementById("requestFrom").value;
+              var requestTo = document.getElementById("requestTo").value;
+              var requestDate = document.getElementById("requestDate").value;
+              //var rideTime = document.getElementById("rideTime").value;
+              var requestPrice = document.getElementById("requestPrice").value;
+              //var rideFlex = document.getElementById("rideFlex").value;
+              var requestRiders = document.getElementById("requestRiders").value;
+              newPushRef.set({
+                  rider: requestRider,
+                  from: requestFrom,
+                  to: requestTo,
+                  date: requestDate,
+                  //time: rideTime,
+                  price: requestPrice,
+                  //flex: rideFlex,
+                  riders: requestRiders
+              });
+              document.getElementById("textArea3").innerHTML = '<b> Thank you! Your ride has been requested! </b><br>';
+            setTimeout(function(){window.location.href = "#findRequestPage";}, 4000);
+        }
+     //PUSH RIDES INFO INTO FIREBASE
+     function pushRidesIntoFirebase(){
+              var myRef = firebase.database().ref();
+              var newRef = myRef.child('/rides');
+              var newPushRef = newRef.push();
+              var rideFrom = document.getElementById("rideFrom").value;
+              var rideTo = document.getElementById("rideTo").value;
+              var rideDate = document.getElementById("rideDate").value;
+              var rideTime = document.getElementById("rideTime").value;
+              var ridePrice = document.getElementById("ridePrice").value;
+              var rideFlex = document.getElementById("rideFlex").value;
+              var rideSeats = document.getElementById("rideSeats").value;
+              newPushRef.set({
+                  from: rideFrom,
+                  to: rideTo,
+                  date: rideDate,
+                  time: rideTime,
+                  price: ridePrice,
+                  flex: rideFlex,
+                  seats: rideSeats
+              });
+              document.getElementById("textArea2").innerHTML = '<b> Thank you! Your ride has been offered! </b><br>';
+         setTimeout(function(){window.location.href = "#ridesPage";}, 4000);
+        }
+        </script>
+</body>
+    
+</html>
