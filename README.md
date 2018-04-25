@@ -1,5 +1,5 @@
 <h1> Campus Rides App </h1>
-<h2>Artur Cabral <b>
+<h2>Artur Cabral <br>
 B.A. in Computer Science</h2>
 <h3>Final Project</h3>
 
@@ -14,6 +14,6 @@ Campus Rides is an application that has the goal to connect Riders and Drivers o
 
 <h2>Inspiration</h2>
 
-<p><i>“The inspiration for Campus Rides App came from a conversation with some friends and staff members about how complicated is for international students or students in general who do not own a car to get from school to the airport and nearby cities during school breaks. Since mobile development is part of my major, as of my research class, I decided to do an independent study on mobile applications development, and create an app to solve this problem.”</i><b><b>
+<p><i>“The inspiration for Campus Rides App came from a conversation with some friends and staff members about how complicated is for international students or students in general who do not own a car to get from school to the airport and nearby cities during school breaks. Since mobile development is part of my major, as of my research class, I decided to do an independent study on mobile applications development, and create an app to solve this problem.”</i><br><br>
 								                                                                                              Artur Cabral
 </p>
