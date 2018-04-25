@@ -4,13 +4,14 @@ B.A. in Computer Science</h2>
 <h3>Final Project</h3>
 
 <h2>What is the Campus Rides App?</h2>
-Campus Rides is an application that has the goal to connect Riders and Drivers on and off campus
-   * Drivers offer rides and share details
-      *Departure and Destination, Date & Time, Preferences, and Price
-   *  Riders look for rides and choose the best fit
-   *  Based on destination, price, and preferences of the ride  
-   *  Campus is more connected, Drivers save gas money, and Riders save on expensive tickets
-
+<ul>
+<li>Campus Rides is an application that has the goal to connect Riders and Drivers on and off campus</li>
+<li>Drivers offer rides and share details</li>
+<li>Departure and Destination, Date & Time, Preferences, and Price</li>
+<li>Riders look for rides and choose the best fit</li>
+<li>Based on destination, price, and preferences of the ride</li>  
+<li>Campus is more connected, Drivers save gas money, and Riders save on expensive tickets</li>
+</ul>
 
 <h2>Inspiration</h2>
 
